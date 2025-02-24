@@ -1,13 +1,23 @@
-/**
- * @format
- */
-
 import React from 'react';
-import ReactTestRenderer from 'react-test-renderer';
+import {render} from '@testing-library/react-native';
 import App from '../App';
 
-test('renders correctly', async () => {
-  await ReactTestRenderer.act(() => {
-    ReactTestRenderer.create(<App />);
+jest.mock('../src/graphql/apolloClient', () => ({
+  default: {
+    query: jest.fn(),
+    mutate: jest.fn(),
+  },
+}));
+
+jest.mock('../src/navigation/AppNavigator', () => jest.fn(() => <></>));
+
+jest.mock('../src/components/ErrorBoundary', () =>
+  jest.fn(({children}) => children),
+);
+
+describe('App Component', () => {
+  it('renders without crashing', () => {
+    const {toJSON} = render(<App />);
+    expect(toJSON()).toMatchSnapshot();
   });
 });
