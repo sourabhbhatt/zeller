@@ -1,97 +1,143 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+ZellerCodeChallenge
 
-# Getting Started
+🚀 Project Overview
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+ZellerCodeChallenge is a React Native application that fetches and displays a list of users using GraphQL with Apollo Client. It allows filtering users based on roles, supports search functionality, and includes clean UI components.
 
-## Step 1: Start Metro
+📌 Features
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+React Native 0.78.0
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+GraphQL Apollo Client integration
 
-```sh
-# Using npm
-npm start
+User list with filtering (Admin, Manager, etc.)
 
-# OR using Yarn
+Search functionality
+
+Pull-to-refresh
+
+Custom UI components (Buttons, Headers, Radio buttons, Loaders)
+
+Navigation using React Navigation
+
+State persistence using MMKV
+
+Linting & Testing support
+
+iOS & Android support
+
+🛠️ Setup & Installation
+
+1️⃣ Clone the Repository
+
+  git clone <repo-url>
+  cd ZellerCodeChallenge
+
+2️⃣ Install Dependencies
+
+  yarn install
+
+3️⃣ Setup iOS (For macOS Users)
+
+  cd ios
+  pod install
+  cd ..
+
+4️⃣ Start the Development Server
+
+  yarn start
+
+5️⃣ Run the Application
+
+For Android:
+
+yarn a
+
+For iOS:
+
+yarn i
+
+📜 Scripts
+
+Command
+
+Description
+
 yarn start
-```
 
-## Step 2: Build and run your app
+Starts the Metro bundler with cache reset
 
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
+yarn a
 
-### Android
+Runs the app on Android
 
-```sh
-# Using npm
-npm run android
+yarn i
 
-# OR using Yarn
-yarn android
-```
+Runs the app on iOS
 
-### iOS
+yarn gc
 
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
+Cleans Android build cache
 
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
+yarn pod-update
 
-```sh
-bundle install
-```
+Updates and installs iOS pods
 
-Then, and every time you update your native dependencies, run:
+yarn pod-r
 
-```sh
-bundle exec pod install
-```
+Deintegrates pods (Removes installed CocoaPods)
 
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
+yarn pod-i
 
-```sh
-# Using npm
-npm run ios
+Installs iOS dependencies (pods)
 
-# OR using Yarn
-yarn ios
-```
+yarn lint
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
+Runs ESLint for linting
 
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
+yarn test
 
-## Step 3: Modify your app
+Runs Jest tests
 
-Now that you have successfully run the app, let's make changes!
+📦 Dependencies
 
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
+{
+  "@apollo/client": "^3.13.1",
+  "@react-navigation/native": "^7.0.14",
+  "@react-navigation/stack": "^7.1.1",
+  "graphql": "^16.10.0",
+  "react": "19.0.0",
+  "react-native": "0.78.0",
+  "react-native-gesture-handler": "^2.24.0",
+  "react-native-mmkv": "^3.2.0",
+  "react-native-safe-area-context": "^5.2.0",
+  "react-native-screens": "^4.9.0",
+  "react-native-vector-icons": "^10.2.0"
+}
 
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
 
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
+📂 Folder Structure
 
-## Congratulations! :tada:
+ZellerCodeChallenge/
+│── src/
+│   ├── assets/         # Colors, fonts, images
+│   ├── components/     # UI components (Buttons, Loaders, Headers, etc.)
+│   ├── graphql/        # GraphQL Queries & Apollo Client setup
+│   ├── navigation/     # Navigation setup
+│   ├── screens/        # Screens (User List, Home, etc.)
+│   ├── utils/          # Helper functions and storage
+│── ios/                # iOS native code
+│── android/            # Android native code
+│── App.tsx             # Entry point
+│── package.json        # Project configuration
+│── README.md           # Documentation
 
-You've successfully run and modified your React Native App. :partying_face:
+🎉 Acknowledgements
 
-### Now what?
+React Native Team for building an awesome framework.
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
+Apollo Client for seamless GraphQL integration.
 
-# Troubleshooting
+React Navigation for handling smooth app navigation.
 
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+Testing Library for React Native testing utilities.
