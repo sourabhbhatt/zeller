@@ -3,10 +3,17 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "a": "react-native run-android",
-    "i": "react-native run-ios",
-    "lint": "eslint .",
     "start": "react-native start --reset-cache",
+
+    "a": "react-native run-android",
+    "gc": "cd android && ./gradlew clean && cd ..",
+
+    "i": "react-native run-ios",
+    "pod-update": "cd ios && pod update && pod install && cd ..",
+    "pod-r": "cd ios && pod deintegrate && cd ..",
+    "pod-i": "cd ios && pod install && cd ..",
+    
+    "lint": "eslint .",
     "test": "jest"
   },
   "dependencies": {
