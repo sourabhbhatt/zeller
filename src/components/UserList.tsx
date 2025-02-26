@@ -5,14 +5,25 @@ import {useQuery} from '@apollo/client';
 import Loader from './Loader';
 import Colors from '../assets/colors';
 import UserListItem from './UserListItem';
-import {GET_USERS} from '../graphql/queries';
+import {GET_ALL_USERS, GET_USERS} from '../graphql/queries';
+import Button from './Button';
+
+// import {RootState} from '../redux/store';
+// import {useSelector, useDispatch} from 'react-redux';
+// import {setUserType, setSearchQuery} from '../redux/slices/userSlice';
 
 interface User {
   id: string;
   name: string;
+  email: string;
   role: string;
 }
-
+interface GetUsersResponse {
+  listZellerCustomers: {
+    items: User[];
+    nextToken?: string;
+  };
+}
 interface UserListProps {
   userType: string;
   searchQuery: string;
@@ -24,14 +35,22 @@ const UserList: FC<UserListProps> = ({
   searchQuery,
   setSearchQuery,
 }) => {
+  // const dispatch = useDispatch();
+  // const userType = useSelector((state: RootState) => state.user.userType);
+  // const searchQuery = useSelector((state: RootState) => state.user.searchQuery);
+
   const [refreshing, setRefreshing] = useState(false);
 
-  const {loading, error, data, refetch} = useQuery(GET_USERS, {
-    variables: {
-      role: userType ? {eq: userType.toUpperCase()} : undefined,
+  const {loading, error, data, refetch} = useQuery<GetUsersResponse>(
+    userType ? GET_USERS : GET_ALL_USERS,
+    {
+      variables: {
+        role: userType ? {eq: userType.toUpperCase()} : undefined,
+      },
+      // fetchPolicy helps optimize performance by ensuring the UI remains responsive while fetching the latest data.
+      fetchPolicy: 'cache-and-network', // Uses cache, then updates from API
     },
-    fetchPolicy: 'cache-and-network',
-  });
+  );
 
   const handleRefresh = async () => {
     setRefreshing(true);
@@ -49,11 +68,24 @@ const UserList: FC<UserListProps> = ({
     ) || [];
 
   const renderItem = useCallback(({item}: {item: User}) => {
-    return <UserListItem name={item.name} role={item.role} />;
+    return (
+      <UserListItem name={item.name} role={item.role} email={item.email} />
+    );
   }, []);
 
+  const renderEmptyComponent = useCallback(() => {
+    return !loading ? (
+      <Text style={styles.emptyListText}>No users found</Text>
+    ) : null;
+  }, [loading]);
+
   if (error)
-    return <Text style={styles.errorText}>{`Error: ${error.message}`}</Text>;
+    return (
+      <View style={styles.errorContainer}>
+        <Text style={styles.errorText}>{`Error: ${error.message}`}</Text>;
+        <Button title="Retry" onPress={() => refetch()} />
+      </View>
+    );
 
   return (
     <View style={styles.container}>
@@ -65,15 +97,20 @@ const UserList: FC<UserListProps> = ({
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
         }
-        ListEmptyComponent={
-          !loading ? (
-            <Text style={styles.emptyListText}>{`No users found`}</Text>
-          ) : null
-        }
+        ListEmptyComponent={renderEmptyComponent}
         contentContainerStyle={[
           styles.listContainer,
-          filteredUsers.length === 0 && styles.centeredEmptyText,
+          data?.listZellerCustomers?.items.length === 0 &&
+            styles.centeredEmptyText,
         ]}
+        showsVerticalScrollIndicator={false}
+        initialNumToRender={10}
+        windowSize={5}
+        getItemLayout={(data, index) => ({
+          length: 70, // Approximate height of each item
+          offset: 70 * index,
+          index,
+        })}
       />
     </View>
   );
@@ -93,6 +130,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  errorContainer: {
+    padding: 16,
+    borderRadius: 8,
+    marginVertical: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   errorText: {
     textAlign: 'center',

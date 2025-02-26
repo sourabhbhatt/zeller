@@ -1,28 +1,50 @@
-import React, {memo} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import React, {memo, useCallback, useMemo} from 'react';
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 
 import Colors from '../assets/colors';
 import FONTS from '../assets/fonts';
 import {formatRole} from '../utils/helpers';
+import {useUser} from '../context/UserContext';
+import {useNavigation} from '@react-navigation/native';
+import {RootStackParamList} from '../navigation/AppNavigator';
+import {StackNavigationProp} from '@react-navigation/stack';
+
+type UserListItemNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  'UserDetails'
+>;
 
 interface UserListItemProps {
   name?: string;
   role?: string;
+  email?: string;
 }
 
 const UserListItem: React.FC<UserListItemProps> = ({
   name = 'Unknown',
   role = 'Role Unknown',
+  email = '',
 }) => {
-  const getInitial = () => {
+  const navigation = useNavigation<UserListItemNavigationProp>();
+  const {setSelectedUser} = useUser();
+
+  const handlePress = useCallback(() => {
+    setSelectedUser({name, email, role});
+    navigation.navigate('UserDetails');
+  }, [navigation, setSelectedUser, name, role, email]);
+
+  const getInitial = useMemo(() => {
     if (!name || typeof name !== 'string') return '?';
     return name.trim().charAt(0).toUpperCase();
-  };
+  }, [name]);
 
   return (
-    <View style={styles.container}>
+    <TouchableOpacity
+      activeOpacity={0.7}
+      onPress={handlePress}
+      style={styles.container}>
       <View style={styles.avatar}>
-        <Text style={styles.avatarText}>{getInitial()}</Text>
+        <Text style={styles.avatarText}>{getInitial}</Text>
       </View>
 
       <View style={styles.infoContainer}>
@@ -30,7 +52,7 @@ const UserListItem: React.FC<UserListItemProps> = ({
         {/* using formatRole function bcoz, 'capitalize' will not work here */}
         <Text style={styles.userRole}>{formatRole(role).trim()}</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

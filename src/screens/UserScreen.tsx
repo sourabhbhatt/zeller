@@ -7,7 +7,14 @@ import UserList from '../components/UserList';
 import {AppResources} from '../utils/resources';
 import UserFilter from '../components/UserFilter';
 
+// import {RootState} from '../redux/store';
+// import {useDispatch, useSelector} from 'react-redux';
+// import {setSearchQuery, setUserType} from '../redux/slices/userSlice';
+
 const UserScreen = () => {
+  // const dispatch = useDispatch();
+  // const userType = useSelector((state: RootState) => state.user.userType);
+  // const searchQuery = useSelector((state: RootState) => state.user.searchQuery);
   const [userType, setUserType] = useState('Admin');
   const [searchQuery, setSearchQuery] = useState('');
 

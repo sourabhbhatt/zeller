@@ -26,8 +26,8 @@ describe('UserList Component', () => {
       </MockedProvider>,
     );
 
-    await waitFor(() => getByText('John Doe')); // ✅ Wait for the result to load
+    await waitFor(() => getByText('John Doe'));
 
-    expect(getByText('John Doe')).toBeTruthy(); // ✅ Ensure user is displayed
+    expect(getByText('John Doe')).toBeTruthy();
   });
 });
